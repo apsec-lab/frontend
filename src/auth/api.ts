@@ -6,7 +6,7 @@ type UserPayload = {
 }
 
 export async function register(data: UserPayload) {
-    return fetch('http://localhost:8000/users/create', {
+    return fetch(`${import.meta.env.VITE_API}/users/create`, {
         method: 'post',
         body: JSON.stringify(data),
         headers: {
@@ -26,7 +26,7 @@ export function useRegister() {
 }
 
 export async function login(data: UserPayload) {
-    return fetch('http://localhost:8000/users/auth', {
+    return fetch(`${import.meta.env.VITE_API}/users/auth`, {
         method: 'post',
         body: JSON.stringify(data),
         headers: {

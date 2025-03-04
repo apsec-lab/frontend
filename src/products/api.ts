@@ -1,33 +1,52 @@
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 
-type Product = {
+export type Product = {
     id: number;
     name: string;
     description: string;
     price: number;
 }
 
-export async function products(): Promise<Product[]> {
-    const response = await fetch('http://localhost:8000/products/get', {
+export async function products(search?: string): Promise<Product[]> {
+    const response = await fetch(`${import.meta.env.VITE_API}/products/get?search=${search ?? ''}`, {
         headers: {
             'Content-Type': 'application/json'
         },
         credentials: "include"
     })
-    console.log(response)
     if (response.status === 403) throw new Error('403')
     return await response.json()
 }
 
-export function useProducts() {
+export function useProducts(search?: string) {
     const {data = [], error, isLoading} = useQuery({
-        queryFn: products,
-        queryKey: ['products']
+        queryFn: () => products(search),
+        queryKey: ['products', search]
     })
 
     return {
         products: data,
         error: error,
         loading: isLoading
+    }
+}
+
+export async function logout() {
+    await fetch(`${import.meta.env.VITE_API}/users/logout`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: "include"
+    })
+}
+
+export function useLogout() {
+    const {mutateAsync} = useMutation({
+        mutationFn: logout,
+    })
+
+    return {
+        logout: mutateAsync,
     }
 }

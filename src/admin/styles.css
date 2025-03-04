@@ -1,0 +1,30 @@
+.form__admin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 1rem;
+    width: max-content;
+}
+
+.admin__container {
+    display: flex;
+
+}
+
+.admin__products {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 300px;
+}
+
+.admin__product {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin__product_name {
+    max-width: 200px;
+}
